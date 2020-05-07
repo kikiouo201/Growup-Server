@@ -1,11 +1,8 @@
 const mysql=require('mysql');
 const Question = require('./question');
-var conn = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : 'Mymy2136',
-    database : 'Blog'
-    });
+const con = require('./conn.js');
+
+var conn = mysql.createConnection(con.mysqldata);
 
     function createConnection(){
         conn.connect(function(err){
@@ -25,10 +22,12 @@ var conn = mysql.createConnection({
     }
    
   //查詢
-    function inquireData(id,data,getAns){
+    function inquireData(table,condition,data,getAns){
         let string={};
         let d="QA";
-        conn.query('SELECT * FROM '+d, function(err, rows) {
+        if(condition !="")
+        condition="WHERE "+condition;
+        conn.query('SELECT * FROM '+table+" "+condition, function(err, rows) {
             if (err) {
                 console.log(err);
             }
