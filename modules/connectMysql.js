@@ -27,8 +27,8 @@ var conn = mysql.createConnection({
   //查詢
     function inquireData(id,data,getAns){
         let string={};
-        let d="article";
-        conn.query('SELECT * FROM '+d+' WHERE id = ?', id, function(err, rows) {
+        let d="QA";
+        conn.query('SELECT * FROM '+d, function(err, rows) {
             if (err) {
                 console.log(err);
             }
@@ -37,7 +37,8 @@ var conn = mysql.createConnection({
             string=JSON.stringify(rows); 
             let array=JSON.parse(string);
             console.log("string="+string);
-            data.content=array[0];
+            let str="";
+            data.content=array;
             getAns(data);
         });
         

@@ -42,7 +42,7 @@ function show_past_question(text,getAns){
             answer: '產於熱帶的一種鳥。'
         },{
             question_id: '3001', 
-            question_text: '（這是一張水杯的圖片)', 
+            question_text: '（這是一張水杯的圖片)',
             answer: '水杯'
         },{
             question_id: '2002', 
