@@ -1,48 +1,80 @@
 const connectmysql= require('./connectMysql');
 
-let favorite_place='favorite_place';
+
 
 let sql_data=[{event:'yo'}];
-
- function place(text,getAns){
+let Favorite_place='favorite_place';
+function favorite_place(text,getAns){
     
     const data= JSON.parse(text);
     connectmysql.inquireData("QA","",data,getAns);
-
-    console.log("str:"+context.child_id);
+  //  console.log("str:"+context.child_id);
    
 }     
 
-let favorite_question='favorite_question';
-function question(text){
+let Favorite_question='favorite_question';
+function favorite_question(text,getAns){
     
     const data= JSON.parse(text);
     connectmysql.inquireData("QA","id = 1",data,getAns);
    
 }
 
-const SHOW_past_question='show_past_question';
+const Show_past_question='show_past_question';
 function show_past_question(text,getAns){
+    const data= JSON.parse(text);
+    connectmysql.inquireData("QA","",data,getAns); 
+   
+}
+
+const Show_book_content='show_past_question';
+function show_book_content(text,getAns){
     const data= JSON.parse(text);
     connectmysql.inquireData("QA","category = '知識'",data,getAns); 
    
 }
 
+const Add_qa='add_qa';
+function add_qa(text,getAns){
+    const data= JSON.parse(text);
+    let textt="req.body.name";
+    let cate="知識";
+    let no="";
+    let sql = {
+        child_id:1,
+        question_text: textt,
+        answer: textt,
+        category: cate
+
+    };
+    connectmysql.addData("QA",sql,data,getAns); 
+    
+}
+
+const Delete_book_content='show_past_question';
+function delete_book_content(text,getAns){
+    const data= JSON.parse(text);
+    connectmysql.inquireData("QA","category = '知識'",data,getAns); 
+   
+}
 
 var event=[
     {
-        event:favorite_place,
-        callback:place
+        event:Favorite_place,
+        callback:favorite_place
     },{
-        event:favorite_question,
-        callback:question
+        event:Favorite_question,
+        callback:favorite_question
     },{
-        event:SHOW_past_question,
+        event:Show_past_question,
         callback:show_past_question
+    },{
+        event:Add_qa,
+        callback:add_qa
     }
 ]
 module.exports = {
-    favorite:place,
+    favorite:favorite_place,
     event:event,
     sql_data:sql_data
 };

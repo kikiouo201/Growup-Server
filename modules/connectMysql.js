@@ -43,12 +43,19 @@ var conn = mysql.createConnection(con.mysqldata);
         
     }
 
-    function addData(sql){
-        conn.query('INSERT INTO article SET?', sql, function(err, rows) {
+    function addData(table,sql,data,getAns){
+        let string={};
+        conn.query('INSERT INTO '+table+' SET ? ', sql, function(err, rows) {
             if (err) {
                 console.log(err);
             }
-            console.log(rows);
+
+            string=JSON.stringify(rows); 
+            let array=JSON.parse(string);
+            console.log("string="+string);
+           // let str="";
+           // data.content=array;
+           // getAns(data);
         });
     }
 
@@ -73,6 +80,7 @@ var conn = mysql.createConnection(con.mysqldata);
 module.exports = {
     createConnection:createConnection,
     inquireData:inquireData,
+    addData:addData,
     closeConnect:closeConnect
 }
     
