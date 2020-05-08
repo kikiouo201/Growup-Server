@@ -35,8 +35,7 @@ var conn = mysql.createConnection(con.mysqldata);
           
             string=JSON.stringify(rows); 
             let array=JSON.parse(string);
-            console.log("string="+string);
-            let str="";
+            //console.log("string="+string);
             data.content=array;
             getAns(data);
         });
@@ -53,11 +52,11 @@ var conn = mysql.createConnection(con.mysqldata);
             string=JSON.stringify(rows); 
             let array=JSON.parse(string);
             console.log("string="+string);
-           // let str="";
-           // data.content=array;
-           // getAns(data);
+            data.content=array;
+            getAns(data);
         });
     }
+
 
     function deleteData(id){
         conn.query('DELETE FROM article WHERE id = ?', id, function(err, rows) {

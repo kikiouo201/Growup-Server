@@ -51,6 +51,24 @@ function add_qa(text,getAns){
     
 }
 
+const Add_book_content='add_book_content';
+function add_book_content(text,getAns){
+    const data= JSON.parse(text);
+    let str=data.content;
+    let book=str.book_id;
+    let qa=str.qa_id;
+    let dt = new Date();
+    let sql = {
+        book_id:book,
+        qa_id: qa,
+        created_at:dt,
+        update_at:dt
+
+    };
+    
+    connectmysql.addData("Book_Content",sql,data,getAns); 
+}
+
 const Delete_book_content='show_past_question';
 function delete_book_content(text,getAns){
     const data= JSON.parse(text);
@@ -71,6 +89,9 @@ var event=[
     },{
         event:Add_qa,
         callback:add_qa
+    },{
+        event:Add_book_content,
+        callback:add_book_content
     }
 ]
 module.exports = {
