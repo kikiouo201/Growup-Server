@@ -1,29 +1,37 @@
-const connectmysql = require('./connectMysql');
+const connectMysql = require('./connectMysql');
 
 
 const FAVORITE_PLACE = 'favorite_place';
 function favoritePlace(text, getAns) {
   const data = JSON.parse(text);
-  connectmysql.inquireData('QA', '', data, getAns);
+  connectMysql.inquireData('QA', '', data, getAns);
   //  console.log("str:"+context.child_id);
 }
 
 const FAVORITE_QUESTION = 'favorite_question';
 function favoriteQuestion(text, getAns) {
   const data = JSON.parse(text);
-  connectmysql.inquireData('QA', 'id = 1', data, getAns);
+  const mcontent = data.content;
+  const dt = new Date();
+  const sql = {
+    book_id: mcontent.book_id,
+    qa_id: mcontent.qa_id,
+    created_at: dt,
+    update_at: dt,
+  };
+  connectMysql.addData('Book_Content', sql, data, getAns);
 }
 
 const SHOW_PAST_QUESTION = 'show_past_question';
 function showPastQuestion(text, getAns) {
   const data = JSON.parse(text);
-  connectmysql.inquireData('QA', '', data, getAns);
+  connectMysql.inquireData('QA', '', data, getAns);
 }
 
 const SHOW_BOOK_CONTENT = 'show_past_question';
 function showBookContent(text, getAns) {
   const data = JSON.parse(text);
-  connectmysql.inquireData('QA', 'category = "知識"', data, getAns);
+  connectMysql.inquireData('QA', 'category = "知識"', data, getAns);
 }
 
 const ADD_QA = 'add_qa';
@@ -37,7 +45,7 @@ function addQa(text, getAns) {
     answer: textt,
     category: cate,
   };
-  connectmysql.addData('QA', sql, data, getAns);
+  connectMysql.addData('QA', sql, data, getAns);
 }
 
 const ADD_BOOK_CONTENT = 'add_book_content';
@@ -51,16 +59,16 @@ function addBookContent(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  connectmysql.addData('Book_Content', sql, data, getAns);
+  connectMysql.addData('Book_Content', sql, data, getAns);
 }
 
 const DELETE_BOOK_CONTENT = 'show_past_question';
 function deleteBookContent(text, getAns) {
   const data = JSON.parse(text);
-  connectmysql.inquireData('QA', "category = '知識'", data, getAns);
+  connectMysql.inquireData('QA', "category = '知識'", data, getAns);
 }
 
-const event = [{
+const eventQueue = [{
   event: FAVORITE_PLACE,
   callback: favoritePlace,
 }, {
@@ -85,5 +93,5 @@ const event = [{
 ];
 module.exports = {
   favorite: favoritePlace,
-  event,
+  eventQueue,
 };

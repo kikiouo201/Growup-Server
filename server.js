@@ -1,18 +1,17 @@
 // import express 和 ws 套件
-const express = require('express');
+const Express = require('express');
 const SocketServer = require('ws').Server;
 // import { Question } from './modules/question';
 const Question = require('./modules/question');
-const connectmysql = require('./modules/connectMysql');
+const ConnectMysql = require('./modules/connectMysql');
 
-const workqueue = [];
+const workQueue = [];
 
 // 指定開啟的 port
 const PORT = 2000;
 
 // 創建 express 的物件，並綁定及監聽 3000 port ，且設定開啟後在 console 中提示
-const server = express()
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+const server = Express().listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // 將 express 交給 SocketServer 開啟 WebSocket 的服務
 const wss = new SocketServer({ server });
@@ -21,7 +20,7 @@ const wss = new SocketServer({ server });
 wss.on('connection', (ws) => {
   // 連結時執行此 console 提示
   console.log('Client connected');
-  connectmysql.createConnection();
+  ConnectMysql.createConnection();
 
   // 固定送最新時間給 Client
   // const sendNowTime = setInterval(()=>{
@@ -29,26 +28,23 @@ wss.on('connection', (ws) => {
   // },1000)
 
   // 對 message 設定監聽，接收從 Client 發送的訊息
-  ws.on('message', (text) => {
+  ws.on('message', (req) => {
     // data 為 Client 發送的訊息，現在將訊息原封不動發送出去
     // ws.send(data)
-
     try {
-      const data = JSON.parse(text);
-      const str = data.content;
-      console.log(str);
-      const events = Question.event;
-      for (let i = 0; i < events.length; i++) {
-        if (events[i].event === data.event) {
-          workqueue.push(events[i]);
-
-          events[i].callback(text, (ans) => {
+      const data = JSON.parse(req);
+      console.log(data.content);
+      const eventsQueue = Question.eventQueue;
+      eventsQueue.forEach((events) => {
+        if (events.event === data.event) {
+          workQueue.push(events);
+          events.callback(req, (res) => {
             // data.content=fun.getAns();
-            console.log(`data=${ans}`);
-            ws.send(JSON.stringify(ans));
+            console.log(`data=${res}`);
+            ws.send(JSON.stringify(res));
           });
         }
-      }
+      });
     } catch (e) {
       console.log(e);
     }
@@ -67,7 +63,7 @@ wss.on('connection', (ws) => {
 
   // 當 WebSocket 的連線關閉時執行
   ws.on('close', () => {
-    connectmysql.closeConnect();
+    ConnectMysql.closeConnect();
     console.log('Close connected');
   });
 });
