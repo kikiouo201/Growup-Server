@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "private": true,
   "dependencies": {
     "express": "^4.17.1",
     "mysql": "^2.18.1",
@@ -21,5 +22,5 @@
     "lint:fix": "eslint --fix --ext .js,.jsx ."
   },
   "author": "kiki",
-  "license": "ISC"
+  "license": "MIT"
 }
