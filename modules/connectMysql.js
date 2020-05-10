@@ -1,7 +1,7 @@
 const Mysql = require('mysql');
-const MysqlAccount = require('./mysqlAccount');
+const config = require('../.config.js');
 
-const database = Mysql.createConnection(MysqlAccount.data);
+const database = Mysql.createConnection(config.mysql);
 
 function createConnection() {
   database.connect((err) => {
