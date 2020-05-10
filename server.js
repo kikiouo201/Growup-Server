@@ -1,5 +1,5 @@
 // import express 和 ws 套件
-const Express = require('express');
+const express = require('express');
 const SocketServer = require('ws').Server;
 // import { Question } from './modules/question';
 const Question = require('./modules/question');
@@ -11,7 +11,7 @@ const workQueue = [];
 const PORT = 2000;
 
 // 創建 express 的物件，並綁定及監聽 3000 port ，且設定開啟後在 console 中提示
-const server = Express().listen(PORT, () => console.log(`Listening on ${PORT}`));
+const server = express().listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // 將 express 交給 SocketServer 開啟 WebSocket 的服務
 const wss = new SocketServer({ server });
