@@ -47,7 +47,10 @@ function inquireData(table, condition, data, getAns) {
 function addData(table, sql, data, getAns) {
   let string = {};
   const mdata = data;
-  database.query(`INSERT INTO ${table} SET ${sql}`, (err, rows) => {
+  console.log(sql);
+  
+  
+  database.query('INSERT INTO '+table+' SET ?',sql, (err, rows) => {
     if (err) {
       console.log(err);
     }
@@ -64,7 +67,7 @@ function addData(table, sql, data, getAns) {
 function deleteData(table, sql, data, getAns) {
   let string = {};
   const mdata = data;
-  database.query(`DELETE FROM ${table} WHERE ${sql}`, (err, rows) => {
+  database.query('DELETE FROM '+table+' WHERE ?',sql, (err, rows) => {
     if (err) {
       console.log(err);
     }

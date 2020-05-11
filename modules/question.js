@@ -27,8 +27,19 @@ function showPastQuestion(text, getAns) {
   const data = JSON.parse(text);
   connectMysql.inquireData('QA', '', data, getAns);
 }
+const DELETE_PAST_QUESTION = 'delete_past_question';
+function deletePastQuestion(text, getAns) {
+  const data = JSON.parse(text);
+  const mcontent = data.content;
+  const sql = {
+    id: mcontent.id,
+  };
+  connectMysql.deleteData('QA', sql, data, getAns);
+}
 
-const SHOW_BOOK_CONTENT = 'show_past_question';
+
+
+const SHOW_BOOK_CONTENT = 'show_book_question';
 function showBookContent(text, getAns) {
   const data = JSON.parse(text);
   connectMysql.inquireData('QA', 'category = "知識"', data, getAns);
@@ -51,21 +62,25 @@ function addQa(text, getAns) {
 const ADD_BOOK_CONTENT = 'add_book_content';
 function addBookContent(text, getAns) {
   const data = JSON.parse(text);
-  const str = data.content;
+  const mcontent = data.content;
   const dt = new Date();
   const sql = {
-    book_id: str.book_id,
-    qa_id: str.qa_id,
+    book_id: mcontent.book_id,
+    qa_id: mcontent.qa_id,
     created_at: dt,
     update_at: dt,
   };
   connectMysql.addData('Book_Content', sql, data, getAns);
 }
 
-const DELETE_BOOK_CONTENT = 'show_past_question';
+const DELETE_BOOK_CONTENT = 'delete_book_content';
 function deleteBookContent(text, getAns) {
   const data = JSON.parse(text);
-  connectMysql.inquireData('QA', "category = '知識'", data, getAns);
+  const mcontent = data.content;
+  const sql = {
+    id: mcontent.id,
+  };
+  connectMysql.deleteData('Book_Content', sql, data, getAns);
 }
 
 const eventQueue = [{
@@ -89,6 +104,9 @@ const eventQueue = [{
 }, {
   event: DELETE_BOOK_CONTENT,
   callback: deleteBookContent,
+}, {
+  event: DELETE_PAST_QUESTION,
+  callback: deletePastQuestion,
 },
 ];
 module.exports = {
