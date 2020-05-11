@@ -27,8 +27,26 @@ function favoriteQuestion(text, getAns) {
 const SHOW_PAST_QUESTION = 'show_past_question';
 function showPastQuestion(text, getAns) {
   const data = JSON.parse(text);
-  connectMysql.inquireData('QA', '', data, getAns);
+  const mcontent = data.content;
+  const condition='child_id = '+mcontent.child_id;
+  connectMysql.inquireData('QA', condition, data, getAns);
 }
+
+
+const ALTER_BOOK_CONTENT = 'alter_book_content';
+const ALTER_BOOK = 'alter_book';
+function alterContent(text, getAns) {
+  const data = JSON.parse(text);
+  const mcontent = data.content;
+  const condition='id = '+mcontent.id;
+  const table=mcontent.table;
+  delete mcontent.id;
+  delete mcontent.table;
+  console.log('mcontent'+mcontent);
+  connectMysql.alterData(table, mcontent, condition, data, getAns)
+}
+
+
 const DELETE_PAST_QUESTION = 'delete_past_question';
 function deletePastQuestion(text, getAns) {
   const data = JSON.parse(text);
@@ -105,6 +123,7 @@ function addBookContent(text, getAns) {
   connectMysql.addData('Book_Content', sql, data, getAns);
 }
 
+
 const DELETE_BOOK_CONTENT = 'delete_book_content';
 function deleteBookContent(text, getAns) {
   const data = JSON.parse(text);
@@ -133,6 +152,12 @@ const eventQueue = [{
 }, {
   event: SHOW_PAST_QUESTION,
   callback: showPastQuestion,
+}, {
+  event: ALTER_BOOK,
+  callback: alterContent,
+}, {
+  event: ALTER_BOOK_CONTENT,
+  callback: alterContent,
 }, {
   event: ADD_QA,
   callback: addQa,

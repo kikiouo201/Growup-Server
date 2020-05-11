@@ -12,15 +12,16 @@ function createConnection() {
 // 修改
 function alterData(table, sql, condition, data, getAns) {
   let string = {};
-  const mcondition = condition;
+  let mcondition = condition;
   const mdata = data;
-  database.query(`UPDATE ${table} SET ${sql} WHERE ${mcondition}`, (err, rows) => {
+  if (mcondition !== '') mcondition = `WHERE ${mcondition}`;
+  database.query('UPDATE '+table+' SET ? '+mcondition,[sql], (err, rows) => {
     if (err) {
       console.log(err);
     }
     string = JSON.stringify(rows);
     const array = JSON.parse(string);
-    // console.log("string="+string);
+     console.log("string="+string);
     mdata.content = array;
     getAns(mdata);
   });
