@@ -73,10 +73,12 @@ function addBook(text, getAns) {
 }
 
 
-const SHOW_BOOK_CONTENT = 'show_book_question';
+const SHOW_BOOK_CONTENT = 'show_book_content';
 function showBookContent(text, getAns) {
   const data = JSON.parse(text);
-  connectMysql.inquireData('QA', 'category = "知識"', data, getAns);
+  const mcontent = data.content;
+
+  connectMysql.inquireTwoData('Book_Content','QA','book_id = '+mcontent.id,data,getAns);
 }
 
 const ADD_QA = 'add_qa';

@@ -44,6 +44,25 @@ function inquireData(table, condition, data, getAns) {
     getAns(mdata);
   });
 }
+
+// 查詢
+function inquireTwoData(table,tableTwo,condition, data, getAns) {
+  let string = {};
+  let mcondition = condition;
+  const mdata = data;
+  if (mcondition !== '') mcondition = `WHERE ${mcondition}`;
+  database.query(`SELECT * FROM ${table} INNER JOIN ${tableTwo} ON ${table}.qa_id=${tableTwo}.id ${mcondition}`, (err, rows) => {
+    if (err) {
+      console.log(err);
+    }
+    string = JSON.stringify(rows);
+    const array = JSON.parse(string);
+     console.log("string="+string);
+    mdata.content = array;
+    getAns(mdata);
+  });
+}
+
 // 增加
 function addData(table, sql, data, getAns) {
   let string = {};
@@ -93,6 +112,7 @@ function closeConnect() {
 module.exports = {
   createConnection,
   inquireData,
+  inquireTwoData,
   addData,
   closeConnect,
   deleteData,
