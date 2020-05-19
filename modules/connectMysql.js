@@ -1,4 +1,5 @@
 const Mysql = require('mysql');
+// eslint-disable-next-line node/no-unpublished-require
 const config = require('../.config.js');
 
 const database = Mysql.createConnection(config.mysql);
@@ -15,25 +16,24 @@ function alterData(table, sql, condition, data, getAns) {
   let mcondition = condition;
   const mdata = data;
   if (mcondition !== '') mcondition = `WHERE ${mcondition}`;
-  database.query('UPDATE '+table+' SET ? '+mcondition,[sql], (err, rows) => {
+  database.query(`UPDATE ${table} SET ? ${mcondition}`, [sql], (err, rows) => {
     if (err) {
       console.log(err);
     }
     string = JSON.stringify(rows);
     const array = JSON.parse(string);
-     console.log("string="+string);
+    console.log(`string=${string}`);
     mdata.content = array;
     getAns(mdata);
   });
 }
 
 // 查詢
-function inquireData(table, condition, data, getAns) {
+function inquireData(table, sql, data, getAns) {
   let string = {};
-  let mcondition = condition;
   const mdata = data;
-  if (mcondition !== '') mcondition = `WHERE ${mcondition}`;
-  database.query(`SELECT * FROM ${table} ${mcondition}`, (err, rows) => {
+
+  database.query(`SELECT * FROM ${table} WHERE ?`, sql, (err, rows) => {
     if (err) {
       console.log(err);
     }
@@ -45,20 +45,18 @@ function inquireData(table, condition, data, getAns) {
   });
 }
 
+
 // 查詢
-function inquireTwoData(table,tableTwo,condition, data, getAns) {
-  let string = {};
-  let mcondition = condition;
+function inquireTwoData(sql, data, getAns) {
+  let str = {};
   const mdata = data;
-  if (mcondition !== '') mcondition = `WHERE ${mcondition}`;
-  database.query(`SELECT * FROM ${table} INNER JOIN ${tableTwo} ON ${table}.qa_id=${tableTwo}.id ${mcondition}`, (err, rows) => {
+  database.query('SELECT * FROM Book_Content INNER JOIN QA ON Book_Content.qa_id=QA.id  WHERE ?', sql, (err, rows) => {
     if (err) {
       console.log(err);
     }
-    string = JSON.stringify(rows);
-    const array = JSON.parse(string);
-     console.log("string="+string);
-    mdata.content = array;
+    str = JSON.stringify(rows);
+    console.log(`string=${str}`);
+    mdata.content = JSON.parse(str);
     getAns(mdata);
   });
 }
@@ -68,9 +66,7 @@ function addData(table, sql, data, getAns) {
   let string = {};
   const mdata = data;
   console.log(sql);
-  
-  
-  database.query('INSERT INTO '+table+' SET ?',sql, (err, rows) => {
+  database.query(`INSERT INTO ${table} SET ?`, sql, (err, rows) => {
     if (err) {
       console.log(err);
     }
@@ -87,7 +83,7 @@ function addData(table, sql, data, getAns) {
 function deleteData(table, sql, data, getAns) {
   let string = {};
   const mdata = data;
-  database.query('DELETE FROM '+table+' WHERE ?',sql, (err, rows) => {
+  database.query(`DELETE FROM ${table} WHERE ?`, sql, (err, rows) => {
     if (err) {
       console.log(err);
     }

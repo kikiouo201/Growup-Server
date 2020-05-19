@@ -1,13 +1,6 @@
 const connectMysql = require('./connectMysql');
 
 
-const FAVORITE_PLACE = 'favorite_place';
-function favoritePlace(text, getAns) {
-  const data = JSON.parse(text);
-  connectMysql.inquireData('QA', '', data, getAns);
-  //  console.log("str:"+context.child_id);
-}
-
 const FAVORITE_QUESTION = 'favorite_question';
 function favoriteQuestion(text, getAns) {
   const data = JSON.parse(text);
@@ -23,13 +16,14 @@ function favoriteQuestion(text, getAns) {
 }
 
 
-
 const SHOW_PAST_QUESTION = 'show_past_question';
 function showPastQuestion(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
-  const condition='child_id = '+mcontent.child_id;
-  connectMysql.inquireData('QA', condition, data, getAns);
+  const sql = {
+    child_id: mcontent.child_id,
+  };
+  connectMysql.inquireData('QA', sql, data, getAns);
 }
 
 
@@ -38,12 +32,12 @@ const ALTER_BOOK = 'alter_book';
 function alterContent(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
-  const condition='id = '+mcontent.id;
-  const table=mcontent.table;
+  const condition = `id = ${mcontent.id}`;
+  const { table } = mcontent;
   delete mcontent.id;
   delete mcontent.table;
-  console.log('mcontent'+mcontent);
-  connectMysql.alterData(table, mcontent, condition, data, getAns)
+  console.log(`mcontent = ${mcontent}`);
+  connectMysql.alterData(table, mcontent, condition, data, getAns);
 }
 
 
@@ -77,20 +71,22 @@ const SHOW_BOOK_CONTENT = 'show_book_content';
 function showBookContent(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
-
-  connectMysql.inquireTwoData('Book_Content','QA','book_id = '+mcontent.id,data,getAns);
+  const sql = {
+    book_id: mcontent.id,
+  };
+  connectMysql.inquireTwoData(sql, data, getAns);
 }
 
 const ADD_QA = 'add_qa';
 function addQa(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
- 
+
   const sql = {
     child_id: mcontent.child_id,
     question_text: mcontent.question_text,
     answer: mcontent.answer,
-    question_url:mcontent.question_url,
+    question_url: mcontent.question_url,
     category: mcontent.category,
   };
   connectMysql.addData('QA', sql, data, getAns);
@@ -109,7 +105,11 @@ function deleteBook(text, getAns) {
 const SHOW_BOOK = 'show_book';
 function showBook(text, getAns) {
   const data = JSON.parse(text);
-  connectMysql.inquireData('Book', '', data, getAns);
+  const mcontent = data.content;
+  const sql = {
+    child_id: mcontent.child_id,
+  };
+  connectMysql.inquireData('Book', sql, data, getAns);
 }
 const ADD_BOOK_CONTENT = 'add_book_content';
 function addBookContent(text, getAns) {
@@ -137,9 +137,6 @@ function deleteBookContent(text, getAns) {
 }
 
 const eventQueue = [{
-  event: FAVORITE_PLACE,
-  callback: favoritePlace,
-}, {
   event: FAVORITE_QUESTION,
   callback: favoriteQuestion,
 }, {
@@ -178,6 +175,5 @@ const eventQueue = [{
 },
 ];
 module.exports = {
-  favorite: favoritePlace,
   eventQueue,
 };
