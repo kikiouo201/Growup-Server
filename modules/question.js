@@ -28,16 +28,26 @@ function showPastQuestion(text, getAns) {
 
 
 const ALTER_BOOK_CONTENT = 'alter_book_content';
-const ALTER_BOOK = 'alter_book';
-function alterContent(text, getAns) {
+function alterBookContent(text, getAns) {
   const data = JSON.parse(text);
-  const mcontent = data.content;
-  const condition = `id = ${mcontent.id}`;
-  const { table } = mcontent;
-  delete mcontent.id;
-  delete mcontent.table;
-  console.log(`mcontent = ${mcontent}`);
-  connectMysql.alterData(table, mcontent, condition, data, getAns);
+  const sql = data.content;
+  const condition = {
+    id: sql.id,
+  };
+  delete sql.id;
+  connectMysql.alterData('Book_Content', sql, condition, data, getAns);
+}
+
+
+const ALTER_BOOK = 'alter_book';
+function alterBook(text, getAns) {
+  const data = JSON.parse(text);
+  const sql = data.content;
+  const condition = {
+    id: sql.id,
+  };
+  delete sql.id;
+  connectMysql.alterData('Book', sql, condition, data, getAns);
 }
 
 
@@ -153,10 +163,10 @@ const eventQueue = [{
   callback: showPastQuestion,
 }, {
   event: ALTER_BOOK,
-  callback: alterContent,
+  callback: alterBook,
 }, {
   event: ALTER_BOOK_CONTENT,
-  callback: alterContent,
+  callback: alterBookContent,
 }, {
   event: ADD_QA,
   callback: addQa,

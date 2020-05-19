@@ -16,7 +16,7 @@ function alterData(table, sql, condition, data, getAns) {
   let mcondition = condition;
   const mdata = data;
   if (mcondition !== '') mcondition = `WHERE ${mcondition}`;
-  database.query(`UPDATE ${table} SET ? ${mcondition}`, [sql], (err, rows) => {
+  database.query(`UPDATE ${table} SET ? WHERE ? `, [sql, condition], (err, rows) => {
     if (err) {
       console.log(err);
     }
