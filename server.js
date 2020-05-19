@@ -1,11 +1,15 @@
 // import express 和 ws 套件
 const express = require('express');
 const SocketServer = require('ws').Server;
+const util = require('util');
 // import { Question } from './modules/question';
 const Question = require('./modules/question');
 const ConnectMysql = require('./modules/connectMysql');
 
-const workQueue = [];
+
+const listeners = [
+  ...Question.eventQueue,
+];
 
 // 指定開啟的 port
 const PORT = 2000;
@@ -34,16 +38,13 @@ wss.on('connection', (ws) => {
     try {
       const data = JSON.parse(req);
       console.log(data.content);
-      const eventsQueue = Question.eventQueue;
-      eventsQueue.forEach((events) => {
-        if (events.event === data.event) {
-          workQueue.push(events);
-          events.callback(req, (res) => {
-            // data.content=fun.getAns();
-            console.log(`data=${res}`);
-            ws.send(JSON.stringify(res));
-          });
-        }
+      const listener = listeners.find((el) => el.event === data.event);
+
+      if (!listener) return;
+
+      listener.callback(req, (res) => {
+        console.log(res);
+        ws.send(util.inspect(res));
       });
     } catch (e) {
       console.log(e);
