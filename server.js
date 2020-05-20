@@ -24,7 +24,7 @@ const wss = new SocketServer({ server });
 wss.on('connection', (ws) => {
   // 連結時執行此 console 提示
   console.log('Client connected');
-  ConnectMysql.createConnection();
+
 
   // 固定送最新時間給 Client
   // const sendNowTime = setInterval(()=>{
@@ -42,10 +42,14 @@ wss.on('connection', (ws) => {
 
       if (!listener) return;
 
-      listener.callback(req, (res) => {
-        console.log(res);
+      listener.callback(req).then((res) => {
         ws.send(util.inspect(res));
       });
+
+      // listener.callback(req, (res) => {
+      //   ws.send(util.inspect(res));
+      //   console.log(`final res = ${res}`);
+      // });
     } catch (e) {
       console.log(e);
     }

@@ -2,7 +2,7 @@ const connectMysql = require('./connectMysql');
 
 
 const FAVORITE_QUESTION = 'favorite_question';
-function favoriteQuestion(text, getAns) {
+async function favoriteQuestion(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const dt = new Date();
@@ -12,57 +12,68 @@ function favoriteQuestion(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  connectMysql.addData('Book_Content', sql, data, getAns);
+  const result = await connectMysql.addData('Book_Content', sql, data, getAns);
+  return result;
 }
 
 
 const SHOW_PAST_QUESTION = 'show_past_question';
-function showPastQuestion(text, getAns) {
+async function showPastQuestion(text) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const sql = {
     child_id: mcontent.child_id,
   };
-  connectMysql.inquireData('QA', sql, data, getAns);
+  const result = await connectMysql.inquireData('QA', sql, data);
+  return result;
+  // connectMysql.inquire('QA', sql, data).then((rusult) => {
+  //   // console.log(`rusult= ${JSON.stringify(rusult)}`);
+  //   resolve(rusult);
+  // }).catch((err) => {
+  //   reject(err);
+  // });
 }
 
 
 const ALTER_BOOK_CONTENT = 'alter_book_content';
-function alterBookContent(text, getAns) {
+async function alterBookContent(text, getAns) {
   const data = JSON.parse(text);
   const sql = data.content;
   const condition = {
     id: sql.id,
   };
   delete sql.id;
-  connectMysql.alterData('Book_Content', sql, condition, data, getAns);
+  const result = await connectMysql.alterData('Book_Content', sql, condition, data, getAns);
+  return result;
 }
 
 
 const ALTER_BOOK = 'alter_book';
-function alterBook(text, getAns) {
+async function alterBook(text, getAns) {
   const data = JSON.parse(text);
   const sql = data.content;
   const condition = {
     id: sql.id,
   };
   delete sql.id;
-  connectMysql.alterData('Book', sql, condition, data, getAns);
+  const result = await connectMysql.alterData('Book', sql, condition, data, getAns);
+  return result;
 }
 
 
 const DELETE_PAST_QUESTION = 'delete_past_question';
-function deletePastQuestion(text, getAns) {
+async function deletePastQuestion(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const sql = {
     id: mcontent.id,
   };
-  connectMysql.deleteData('QA', sql, data, getAns);
+  const result = await connectMysql.deleteData('QA', sql, data, getAns);
+  return result;
 }
 
 const ADD_BOOK = 'add_book';
-function addBook(text, getAns) {
+async function addBook(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const dt = new Date();
@@ -73,22 +84,24 @@ function addBook(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  connectMysql.addData('Book', sql, data, getAns);
+  const result = await connectMysql.addData('Book', sql, data, getAns);
+  return result;
 }
 
 
 const SHOW_BOOK_CONTENT = 'show_book_content';
-function showBookContent(text, getAns) {
+async function showBookContent(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const sql = {
     book_id: mcontent.id,
   };
-  connectMysql.inquireTwoData(sql, data, getAns);
+  const result = await connectMysql.inquireTwoData(sql, data, getAns);
+  return result;
 }
 
 const ADD_QA = 'add_qa';
-function addQa(text, getAns) {
+async function addQa(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
 
@@ -99,30 +112,33 @@ function addQa(text, getAns) {
     question_url: mcontent.question_url,
     category: mcontent.category,
   };
-  connectMysql.addData('QA', sql, data, getAns);
+  const result = await connectMysql.addData('QA', sql, data, getAns);
+  return result;
 }
 
 const DELETE_BOOK = 'delete_book';
-function deleteBook(text, getAns) {
+async function deleteBook(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const sql = {
     id: mcontent.id,
   };
-  connectMysql.deleteData('Book', sql, data, getAns);
+  const result = await connectMysql.deleteData('Book', sql, data, getAns);
+  return result;
 }
 
 const SHOW_BOOK = 'show_book';
-function showBook(text, getAns) {
+async function showBook(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const sql = {
     child_id: mcontent.child_id,
   };
-  connectMysql.inquireData('Book', sql, data, getAns);
+  const result = await connectMysql.inquireData('Book', sql, data, getAns);
+  return result;
 }
 const ADD_BOOK_CONTENT = 'add_book_content';
-function addBookContent(text, getAns) {
+async function addBookContent(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const dt = new Date();
@@ -132,18 +148,20 @@ function addBookContent(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  connectMysql.addData('Book_Content', sql, data, getAns);
+  const result = await connectMysql.addData('Book_Content', sql, data, getAns);
+  return result;
 }
 
 
 const DELETE_BOOK_CONTENT = 'delete_book_content';
-function deleteBookContent(text, getAns) {
+async function deleteBookContent(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
   const sql = {
     id: mcontent.id,
   };
-  connectMysql.deleteData('Book_Content', sql, data, getAns);
+  const result = await connectMysql.deleteData('Book_Content', sql, data, getAns);
+  return result;
 }
 
 const eventQueue = [{
