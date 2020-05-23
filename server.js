@@ -12,7 +12,7 @@ const listeners = [
 ];
 
 // 指定開啟的 port
-const PORT = 2000;
+const PORT = process.env.PORT || 2000;
 
 // 創建 express 的物件，並綁定及監聽 3000 port ，且設定開啟後在 console 中提示
 const server = express().listen(PORT, () => console.log(`Listening on ${PORT}`));
@@ -43,6 +43,7 @@ wss.on('connection', (ws) => {
       if (!listener) return;
 
       listener.callback(req).then((res) => {
+        console.log(`res= ${util.inspect(res)}`);
         ws.send(util.inspect(res));
       });
 
