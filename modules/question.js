@@ -12,8 +12,7 @@ async function favoriteQuestion(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  const result = await connectMysql.addData('Book_Content', sql, data, getAns);
-  return result;
+  return connectMysql.addData('Book_Content', sql, data, getAns);
 }
 
 
@@ -24,8 +23,7 @@ async function showPastQuestion(text) {
   const sql = {
     child_id: mcontent.child_id,
   };
-  const result = await connectMysql.inquireData('QA', sql, data);
-  return result;
+  return connectMysql.inquireData('QA', sql, data);
   // connectMysql.inquire('QA', sql, data).then((rusult) => {
   //   // console.log(`rusult= ${JSON.stringify(rusult)}`);
   //   resolve(rusult);
@@ -43,8 +41,7 @@ async function alterBookContent(text, getAns) {
     id: sql.id,
   };
   delete sql.id;
-  const result = await connectMysql.alterData('Book_Content', sql, condition, data, getAns);
-  return result;
+  return connectMysql.alterData('Book_Content', sql, condition, data, getAns);
 }
 
 
@@ -56,8 +53,7 @@ async function alterBook(text, getAns) {
     id: sql.id,
   };
   delete sql.id;
-  const result = await connectMysql.alterData('Book', sql, condition, data, getAns);
-  return result;
+  return connectMysql.alterData('Book', sql, condition, data, getAns);
 }
 
 
@@ -68,8 +64,7 @@ async function deletePastQuestion(text, getAns) {
   const sql = {
     id: mcontent.id,
   };
-  const result = await connectMysql.deleteData('QA', sql, data, getAns);
-  return result;
+  return connectMysql.deleteData('QA', sql, data, getAns);
 }
 
 const ADD_BOOK = 'add_book';
@@ -84,8 +79,7 @@ async function addBook(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  const result = await connectMysql.addData('Book', sql, data, getAns);
-  return result;
+  return connectMysql.addData('Book', sql, data, getAns);
 }
 
 
@@ -96,8 +90,7 @@ async function showBookContent(text, getAns) {
   const sql = {
     book_id: mcontent.id,
   };
-  const result = await connectMysql.inquireTwoData(sql, data, getAns);
-  return result;
+  return connectMysql.inquireTwoData(sql, data, getAns);
 }
 
 const ADD_QA = 'add_qa';
@@ -112,8 +105,7 @@ async function addQa(text, getAns) {
     question_url: mcontent.question_url,
     category: mcontent.category,
   };
-  const result = await connectMysql.addData('QA', sql, data, getAns);
-  return result;
+  return connectMysql.addData('QA', sql, data, getAns);
 }
 
 const DELETE_BOOK = 'delete_book';
@@ -123,8 +115,7 @@ async function deleteBook(text, getAns) {
   const sql = {
     id: mcontent.id,
   };
-  const result = await connectMysql.deleteData('Book', sql, data, getAns);
-  return result;
+  return connectMysql.deleteData('Book', sql, data, getAns);
 }
 
 const SHOW_BOOK = 'show_book';
@@ -134,8 +125,7 @@ async function showBook(text, getAns) {
   const sql = {
     child_id: mcontent.child_id,
   };
-  const result = await connectMysql.inquireData('Book', sql, data, getAns);
-  return result;
+  return connectMysql.inquireData('Book', sql, data, getAns);
 }
 const ADD_BOOK_CONTENT = 'add_book_content';
 async function addBookContent(text, getAns) {
@@ -148,8 +138,7 @@ async function addBookContent(text, getAns) {
     created_at: dt,
     update_at: dt,
   };
-  const result = await connectMysql.addData('Book_Content', sql, data, getAns);
-  return result;
+  return connectMysql.addData('Book_Content', sql, data, getAns);
 }
 
 
@@ -160,8 +149,7 @@ async function deleteBookContent(text, getAns) {
   const sql = {
     id: mcontent.id,
   };
-  const result = await connectMysql.deleteData('Book_Content', sql, data, getAns);
-  return result;
+  return connectMysql.deleteData('Book_Content', sql, data, getAns);
 }
 
 const eventQueue = [{
