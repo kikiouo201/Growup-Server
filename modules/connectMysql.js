@@ -1,5 +1,5 @@
 const Mysql = require('mysql');
-// eslint-disable-next-line node/no-unpublished-require
+// eslint-disable-next-line node/no-unpublished-require,import/no-unresolved,node/no-missing-require
 const config = require('../.config.js');
 
 const database = Mysql.createConnection(config.mysql);
