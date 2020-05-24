@@ -6,8 +6,6 @@ name: Auto deploy CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   lint:
@@ -21,6 +19,7 @@ jobs:
     - run: npm ci
     - run: npm run lint
   deploy:
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
