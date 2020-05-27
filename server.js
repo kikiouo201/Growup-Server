@@ -36,6 +36,7 @@ wss.on('connection', (ws) => {
     // data 為 Client 發送的訊息，現在將訊息原封不動發送出去
     // ws.send(data)
     try {
+      console.log(req);
       const data = JSON.parse(req);
       console.log(data.content);
       const listener = listeners.find((el) => el.event === data.event);
@@ -44,7 +45,7 @@ wss.on('connection', (ws) => {
 
       listener.callback(req).then((res) => {
         console.log(`res= ${util.inspect(res)}`);
-        ws.send(util.inspect(res));
+        ws.send(JSON.stringify(res));
       });
 
       // listener.callback(req, (res) => {

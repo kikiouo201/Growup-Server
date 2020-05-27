@@ -97,13 +97,15 @@ const ADD_QA = 'add_qa';
 async function addQa(text, getAns) {
   const data = JSON.parse(text);
   const mcontent = data.content;
-
+  const dt = new Date();
   const sql = {
     child_id: mcontent.child_id,
     question_text: mcontent.question_text,
     answer: mcontent.answer,
     question_url: mcontent.question_url,
     category: mcontent.category,
+    created_at: dt,
+    update_at: dt,
   };
   return connectMysql.addData('QA', sql, data, getAns);
 }
