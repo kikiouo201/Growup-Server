@@ -14,17 +14,13 @@ database.connect((err) => {
 // 修改
 function alterData(table, sql, condition, data) {
   return new Promise((resolve, reject) => {
-    let string = {};
     const mdata = data;
     database.query(`UPDATE ${table} SET ? WHERE ? `, [sql, condition], (err, rows) => {
       if (err) {
         reject();
         console.log(err);
       }
-      string = JSON.stringify(rows);
-      const array = JSON.parse(string);
-      console.log(`string=${string}`);
-      mdata.content = array;
+      mdata.content = rows;
       resolve(mdata);
     });
   });
@@ -34,19 +30,13 @@ function alterData(table, sql, condition, data) {
 // 查詢
 function inquireData(table, sql, data) {
   return new Promise((resolve, reject) => {
-    let string = {};
     const mdata = data;
     database.query(`SELECT * FROM ${table} WHERE ?`, sql, (err, rows) => {
       if (err) {
         reject();
         console.log(err);
       }
-
-      string = JSON.stringify(rows);
-      const array = JSON.parse(string);
-      // console.log(`string=${string}`);
-      mdata.content = array;
-
+      mdata.content = rows;
       resolve(mdata);
     });
   });
@@ -56,16 +46,13 @@ function inquireData(table, sql, data) {
 // 查詢
 function inquireTwoData(sql, data) {
   return new Promise((resolve, reject) => {
-    let str = {};
     const mdata = data;
     database.query('SELECT * FROM Book_Content INNER JOIN QA ON Book_Content.qa_id=QA.id  WHERE ?', sql, (err, rows) => {
       if (err) {
         reject();
-        console.log(err);
+        console.error(err);
       }
-      str = JSON.stringify(rows);
-      console.log(`string=${str}`);
-      mdata.content = JSON.parse(str);
+      mdata.content = rows;
       resolve(mdata);
     });
   });
@@ -74,7 +61,6 @@ function inquireTwoData(sql, data) {
 // 增加
 function addData(table, sql, data) {
   return new Promise((resolve, reject) => {
-    let string = {};
     const mdata = data;
     console.log(sql);
     database.query(`INSERT INTO ${table} SET ?`, sql, (err, rows) => {
@@ -82,11 +68,7 @@ function addData(table, sql, data) {
         reject();
         console.log(err);
       }
-
-      string = JSON.stringify(rows);
-      const array = JSON.parse(string);
-      console.log(`string=${string}`);
-      mdata.content = array;
+      mdata.content = rows;
       resolve(mdata);
     });
   });
@@ -95,7 +77,6 @@ function addData(table, sql, data) {
 
 function deleteData(table, sql, data) {
   return new Promise((resolve, reject) => {
-    let string = {};
     const mdata = data;
     database.query(`DELETE FROM ${table} WHERE ?`, sql, (err, rows) => {
       if (err) {
@@ -103,10 +84,7 @@ function deleteData(table, sql, data) {
         console.log(err);
       }
       console.log('Delete 200 ok');
-      string = JSON.stringify(rows);
-      const array = JSON.parse(string);
-      console.log(`string=${string}`);
-      mdata.content = array;
+      mdata.content = rows;
       resolve(mdata);
     });
   });

@@ -4,7 +4,6 @@ const SocketServer = require('ws').Server;
 const util = require('util');
 // import { Question } from './modules/question';
 const Question = require('./modules/question');
-const connectMysql = require('./modules/connectMysql');
 
 
 const listeners = [
@@ -70,7 +69,6 @@ wss.on('connection', (ws) => {
 
   // 當 WebSocket 的連線關閉時執行
   ws.on('close', () => {
-    connectMysql.closeConnect();
     console.log('Close connected');
   });
 });
