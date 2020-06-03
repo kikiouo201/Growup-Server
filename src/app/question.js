@@ -14,12 +14,19 @@ router.on('favorite_question', async (data) => {
   return db.addData('Book_Content', sql);
 });
 
-// router.on('show_child', async (data) => {
-//   const sql = {
-//     parent_id: data.parent_id,
-//   };
-//   return db.inquireTwoData('Child_Parent', 'Child', 'Child_Parent.child_id = Child.id', sql);
-// });
+router.on('show_quiz_content', async (data) => {
+  const sql = {
+    Quiz_Record_id: data.quiz_record_id,
+  };
+  return db.inquireTwoData('Quiz_Content', 'Quiz', 'Quiz_Content.Quiz_id = Quiz.id', sql);
+});
+
+router.on('show_quiz_record', async (data) => {
+  const sql = {
+    child_id: data.child_id,
+  };
+  return db.inquireData('Quiz_Record', sql);
+});
 
 router.on('alter_book_content', async (data) => {
   const sql = data;
