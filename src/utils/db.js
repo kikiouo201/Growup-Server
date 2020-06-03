@@ -40,9 +40,20 @@ function inquireData(table, condition) {
   });
 }
 
+function inquireTwoData(table1, table2, on, condition) {
+  return new Promise((resolve, reject) => {
+    database.query(`SELECT * FROM ${table1} INNER JOIN ${table2} ON ${on}  WHERE ?`, condition, (err, rows) => {
+      if (err) {
+        reject(err);
+        log(err);
+      }
+      resolve(rows);
+    });
+  });
+}
 
-// 查詢
-function inquireTwoData(condition) {
+
+function bookContentToQa(condition) {
   return new Promise((resolve, reject) => {
     database.query('SELECT * FROM Book_Content INNER JOIN QA ON Book_Content.qa_id=QA.id  WHERE ?', condition, (err, rows) => {
       if (err) {
@@ -53,6 +64,7 @@ function inquireTwoData(condition) {
     });
   });
 }
+
 
 // 增加
 function addData(table, data) {
@@ -84,6 +96,7 @@ function deleteData(table, condition) {
 module.exports = {
   inquireData,
   inquireTwoData,
+  bookContentToQa,
   addData,
   deleteData,
   alterData,

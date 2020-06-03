@@ -52,14 +52,14 @@ function Exsocket(PORT = 2000) {
 
     ws.on('message', async (req) => {
       wsLog(`server <== ${req}`);
-
       const data = JSON.parse(req);
       const listener = listeners.get(data.event);
       if (!listener) throw new Error(`No ${data.event} event`);
 
-      const result = JSON.stringify(await listener(data.content));
-      wsLog(`server ==> ${result}`);
-      ws.send(result);
+      const result = await listener(data.content);
+      data.content = result;
+      wsLog(`server ==> ${data}`);
+      ws.send(JSON.stringify(data));
     });
   });
 

@@ -14,12 +14,11 @@ router.on('favorite_question', async (data) => {
   return db.addData('Book_Content', sql);
 });
 
-
-router.on('show_past_question', async (data) => {
+router.on('show_child', async (data) => {
   const sql = {
-    child_id: data.child_id,
+    parent_id: data.parent_id,
   };
-  return db.inquireData('QA', sql);
+  return db.inquireTwoData('Child_Parent', 'Child', 'Child_Parent.child_id = Child.id', sql);
 });
 
 router.on('alter_book_content', async (data) => {
@@ -30,6 +29,22 @@ router.on('alter_book_content', async (data) => {
   delete sql.id;
   return db.alterData('Book_Content', sql, condition);
 });
+
+router.on('show_past_question', async (data) => {
+  const sql = {
+    child_id: data.child_id,
+  };
+  return db.inquireData('QA', sql);
+});
+
+// router.on('alter_book_content', async (data) => {
+//   const sql = data;
+//   const condition = {
+//     id: sql.id,
+//   };
+//   delete sql.id;
+//   return db.alterData('Book_Content', sql, condition);
+// });
 
 router.on('alter_book', async (data) => {
   const sql = data;
@@ -64,7 +79,7 @@ router.on('show_book_content', async (data) => {
   const sql = {
     book_id: data.id,
   };
-  return db.inquireTwoData(sql);
+  return db.bookContentToQa(sql);
 });
 
 router.on('add_qa', async (data) => {
