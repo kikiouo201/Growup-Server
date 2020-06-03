@@ -58,7 +58,7 @@ function Exsocket(PORT = 2000) {
 
       const result = await listener(data.content);
       data.content = result;
-      wsLog(`server ==> ${data}`);
+      wsLog(`server ==> ${JSON.stringify(data)}`);
       ws.send(JSON.stringify(data));
     });
   });

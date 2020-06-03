@@ -14,12 +14,12 @@ router.on('favorite_question', async (data) => {
   return db.addData('Book_Content', sql);
 });
 
-router.on('show_child', async (data) => {
-  const sql = {
-    parent_id: data.parent_id,
-  };
-  return db.inquireTwoData('Child_Parent', 'Child', 'Child_Parent.child_id = Child.id', sql);
-});
+// router.on('show_child', async (data) => {
+//   const sql = {
+//     parent_id: data.parent_id,
+//   };
+//   return db.inquireTwoData('Child_Parent', 'Child', 'Child_Parent.child_id = Child.id', sql);
+// });
 
 router.on('alter_book_content', async (data) => {
   const sql = data;
@@ -36,15 +36,6 @@ router.on('show_past_question', async (data) => {
   };
   return db.inquireData('QA', sql);
 });
-
-// router.on('alter_book_content', async (data) => {
-//   const sql = data;
-//   const condition = {
-//     id: sql.id,
-//   };
-//   delete sql.id;
-//   return db.alterData('Book_Content', sql, condition);
-// });
 
 router.on('alter_book', async (data) => {
   const sql = data;
@@ -91,7 +82,7 @@ router.on('add_qa', async (data) => {
     question_url: data.question_url,
     category: data.category,
     created_at: dt,
-    update_at: dt,
+    updated_at: dt,
   };
   return db.addData('QA', sql);
 });
