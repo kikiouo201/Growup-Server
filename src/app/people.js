@@ -3,6 +3,31 @@ const db = require('../utils/db');
 
 const router = createRouter();
 
+
+router.on('alter_parent', async (data) => {
+  const sql = data;
+  const condition = {
+    id: sql.id,
+  };
+  delete sql.id;
+  return db.alterData('Parent', sql, condition);
+});
+
+router.on('add_parent', async (data) => {
+  const dt = new Date();
+
+  const sql = {
+    name: data.name,
+    account: data.account,
+    password: data.password,
+    created_at: dt,
+    updated_at: dt,
+  };
+
+
+  return db.addData('Parent', sql);
+});
+
 router.on('show_child', async (data) => {
   const sql = {
     parent_id: data.parent_id,
