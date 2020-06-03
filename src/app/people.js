@@ -51,4 +51,13 @@ router.on('delete_child', async (data) => {
   return db.deleteData('Child', sql);
 });
 
+router.on('alter_child', async (data) => {
+  const sql = data;
+  const condition = {
+    id: sql.id,
+  };
+  delete sql.id;
+  return db.alterData('Child', sql, condition);
+});
+
 module.exports = router;
