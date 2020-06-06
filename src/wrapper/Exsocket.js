@@ -56,10 +56,10 @@ function Exsocket(PORT = 2000) {
       const listener = listeners.get(data.event);
       if (!listener) throw new Error(`No ${data.event} event`);
 
-      const result = await listener(data.content);
-      data.content = result;
-      wsLog(`server ==> ${JSON.stringify(data)}`);
-      ws.send(JSON.stringify(data));
+      const content = await listener(data.content);
+      const res = { event: data.event, content };
+      wsLog(`server ==> ${JSON.stringify(res, null, 2)}`);
+      ws.send(JSON.stringify(res));
     });
   });
 
