@@ -4,6 +4,14 @@ const db = require('../utils/db');
 const router = createRouter();
 
 
+router.on('sign_in_parent', async (req) => {
+  const sql = {
+    account: req.account,
+    password: req.password,
+  };
+  return db.inquireData('Parent', sql);
+});
+
 router.on('alter_parent', async (req) => {
   const { id, ...params } = req;
   // const sql = data;
