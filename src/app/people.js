@@ -4,24 +4,21 @@ const db = require('../utils/db');
 const router = createRouter();
 
 
-router.on('alter_parent', async (data) => {
-  const sql = data;
-  const condition = {
-    id: sql.id,
-  };
-  delete sql.id;
-  return db.alterData('Parent', sql, condition);
+router.on('alter_parent', async (req) => {
+  const { id, ...params } = req;
+  // const sql = data;
+  // const condition = {
+  //   id: sql.id,
+  // };
+  // delete sql.id;
+  return db.alterData('Parent', params, { id });
 });
 
 router.on('add_parent', async (data) => {
-  const dt = new Date();
-
   const sql = {
     name: data.name,
     account: data.account,
     password: data.password,
-    created_at: dt,
-    updated_at: dt,
   };
 
 
@@ -46,15 +43,11 @@ function makeid(length) {
 }
 
 router.on('add_child', async (data) => {
-  const dt = new Date();
-
   let sql = {
     name: data.name,
     birthday: data.birthday,
     photo: data.photo,
     child_key: makeid(10),
-    created_at: dt,
-    updated_at: dt,
   };
   const addData = await db.addData('Child', sql);
   console.log(addData);
