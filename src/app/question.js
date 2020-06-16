@@ -21,6 +21,17 @@ router.on('show_quiz_content', async (data) => {
   return db.inquireTwoData('Quiz_Content', 'Quiz', 'Quiz_Content.Quiz_id = Quiz.id', sql);
 });
 
+router.on('add_quiz_record', async (data) => {
+  const sql = {
+    child_id: data.child_id,
+    total_time: 10,
+    name: data.name,
+    amount: data.amount,
+    correct_amount: data.correct_amount,
+  };
+  return db.addData('Quiz_Record', sql);
+});
+
 router.on('show_quiz_record', async (data) => {
   const sql = {
     child_id: data.child_id,

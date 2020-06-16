@@ -40,6 +40,13 @@ router.on('show_child', async (data) => {
   return db.inquireTwoData('Child_Parent', 'Child', 'Child_Parent.child_id = Child.id', sql);
 });
 
+router.on('show_child_key', async (data) => {
+  const sql = {
+    child_key: data.child_key,
+  };
+  return db.inquireData('Child', sql);
+});
+
 function makeid(length) {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
