@@ -40,6 +40,18 @@ function inquireData(table, condition) {
   });
 }
 
+function inquireAccount(table, account, password) {
+  return new Promise((resolve, reject) => {
+    database.query(`SELECT * FROM ${table} WHERE ? AND ?`, [account, password], (err, rows) => {
+      if (err) {
+        reject(err);
+        log(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
 function inquireTwoData(table1, table2, on, condition) {
   return new Promise((resolve, reject) => {
     database.query(`SELECT * FROM ${table1} INNER JOIN ${table2} ON ${on}  WHERE ?`, condition, (err, rows) => {
@@ -95,6 +107,7 @@ function deleteData(table, condition) {
 
 module.exports = {
   inquireData,
+  inquireAccount,
   inquireTwoData,
   bookContentToQa,
   addData,
