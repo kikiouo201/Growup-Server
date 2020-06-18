@@ -13,15 +13,17 @@ router.on('favorite_question', async (data) => {
 
 router.on('add_quiz', async (data) => {
   if (data.book_id === 5) {
-    // const quizs = await db.inquireQuiz('Quiz', 'id BETWEEN 7 AND 16');
-    // let max = 0;
-    // for (let i = 0; i < 10; i += 1) {
-    //   const quiz = quizs[i];
-    //   console.log(`quiz.id=${quiz.id}`);
-    //   delete quiz.id;
-    //    db.addData('Quiz', quiz);
-    // }
-    return db.inquireQuiz('Quiz', 'id BETWEEN 7 AND 16');
+    const quizs = await db.inquireQuiz('Quiz', 'id BETWEEN 7 AND 16');
+    let max = 0;
+    for (let i = 0; i < 10; i += 1) {
+      const quiz = quizs[i];
+      console.log(`quiz.id=${quiz.id}`);
+      delete quiz.id;
+      // eslint-disable-next-line no-await-in-loop
+      const addstatus = await db.addData('Quiz', quiz);
+      max = addstatus.insertId;
+    }
+    return db.inquireQuiz('Quiz', `id BETWEEN ${max - 9} AND ${max}`);
   }
   return { status: 'fail' };
 });
