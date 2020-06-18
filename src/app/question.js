@@ -4,14 +4,26 @@ const db = require('../utils/db');
 const router = createRouter();
 
 router.on('favorite_question', async (data) => {
-  const dt = new Date();
   const sql = {
     book_id: data.book_id,
     qa_id: data.qa_id,
-    created_at: dt,
-    update_at: dt,
   };
   return db.addData('Book_Content', sql);
+});
+
+router.on('add_quiz', async (data) => {
+  if (data.book_id === 5) {
+    // const quizs = await db.inquireQuiz('Quiz', 'id BETWEEN 7 AND 16');
+    // let max = 0;
+    // for (let i = 0; i < 10; i += 1) {
+    //   const quiz = quizs[i];
+    //   console.log(`quiz.id=${quiz.id}`);
+    //   delete quiz.id;
+    //    db.addData('Quiz', quiz);
+    // }
+    return db.inquireQuiz('Quiz', 'id BETWEEN 7 AND 16');
+  }
+  return { status: 'fail' };
 });
 
 router.on('show_quiz_content', async (data) => {
@@ -29,6 +41,12 @@ router.on('add_quiz_record', async (data) => {
     amount: data.amount,
     correct_amount: data.correct_amount,
   };
+  data.quizs.forEach((quiz) => {
+    const dat = quiz;
+    const { id } = quiz;
+    delete sql.id;
+    db.alterData('Quiz', dat, { id });
+  });
   return db.addData('Quiz_Record', sql);
 });
 
@@ -72,13 +90,10 @@ router.on('delete_past_question', async (data) => {
 });
 
 router.on('add_book', async (data) => {
-  const dt = new Date();
   const sql = {
     child_id: data.child_id,
     name: data.name,
     category: data.category,
-    created_at: dt,
-    update_at: dt,
   };
   return db.addData('Book', sql);
 });

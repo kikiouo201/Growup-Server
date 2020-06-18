@@ -40,6 +40,18 @@ function inquireData(table, condition) {
   });
 }
 
+function inquireQuiz(table, condition) {
+  return new Promise((resolve, reject) => {
+    database.query(`SELECT * FROM ${table} WHERE ${condition}`, (err, rows) => {
+      if (err) {
+        reject(err);
+        log(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
 function inquireAccount(table, account, password) {
   return new Promise((resolve, reject) => {
     database.query(`SELECT * FROM ${table} WHERE ? AND ?`, [account, password], (err, rows) => {
@@ -108,6 +120,7 @@ function deleteData(table, condition) {
 module.exports = {
   inquireData,
   inquireAccount,
+  inquireQuiz,
   inquireTwoData,
   bookContentToQa,
   addData,
