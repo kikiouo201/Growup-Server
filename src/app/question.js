@@ -127,7 +127,7 @@ router.on('add_qa', async (data) => {
     // ../WebSocket-JS/src/image/image
     // ../mcuim/WebSocket-JS/src/image/image
     const fileName = `image${makeid(4)}.png`;
-    questionUrl = `http://growup.mcu.yokikiyo.space:2000/images/${fileName}`;
+    questionUrl = `http://growup.mcu.yokikiyo.space/images/${fileName}`;
     fs.writeFile(`../mcuim/WebSocket-JS/src/image/${fileName}`, base64Image, { encoding: 'base64' }, (err) => {
       console.log('File created');
       console.log(`err=${err}`);
