@@ -8,7 +8,13 @@ const wsLog = debug('ws => ');
 
 
 function Exsocket(PORT = 2000) {
-  const httpServer = express().listen(PORT, () => log(`HTTP server start on ${PORT}`));
+  const Server = express();
+  Server.use(express.static('public'));
+
+
+  Server.use('/Images', express.static('../mcuim/WebSocket-JS/src/image'));
+
+  const httpServer = Server.listen(PORT, () => log(`HTTP server start on ${PORT}`));
   const wss = new SocketServer({ server: httpServer });
   const builtInEvents = ['close', 'error', 'upgrade', 'message', 'open', 'ping', 'pong', 'unexpected-response'];
   const builtInEventListeners = [];
