@@ -121,11 +121,11 @@ router.on('show_book_content', async (data) => {
 });
 
 router.on('add_qa', async (data) => {
-  let questionUrl = null;
+  let questionUrl = '';
   if (data.base64str !== null) {
     const base64Image = data.base64str.split(';base64,').pop();
 
-    questionUrl = `../src/image/image${makeid(4)}.png`;
+    questionUrl = `../mcuim/WebSocket-JS/src/image/image${makeid(4)}.png`;
     fs.writeFile(questionUrl, base64Image, { encoding: 'base64' }, (err) => {
       console.log('File created');
       console.log(`err=${err}`);
