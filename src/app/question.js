@@ -1,7 +1,19 @@
+const fs = require('fs');
 const { createRouter } = require('../wrapper/Exsocket');
 const db = require('../utils/db');
 
+
 const router = createRouter();
+
+function makeid(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i += 1) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
 router.on('favorite_question', async (data) => {
   const sql = {
@@ -109,11 +121,23 @@ router.on('show_book_content', async (data) => {
 });
 
 router.on('add_qa', async (data) => {
+  let questionUrl = null;
+  if (data.base64str !== null) {
+    const base64Image = data.base64str.split(';base64,').pop();
+
+    questionUrl = `../src/image/image${makeid(4)}.png`;
+    fs.writeFile(questionUrl, base64Image, { encoding: 'base64' }, (err) => {
+      console.log('File created');
+      console.log(`err=${err}`);
+    });
+  }
+
+  console.log(`questionUrl=${questionUrl}`);
   const sql = {
     child_id: data.child_id,
     question_text: data.question_text,
     answer: data.answer,
-    question_url: data.question_url,
+    question_url: questionUrl,
     category: data.category,
   };
   return db.addData('QA', sql);
