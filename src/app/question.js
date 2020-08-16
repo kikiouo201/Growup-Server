@@ -182,10 +182,10 @@ router.on('show_book', async (data) => {
 });
 
 // 家長上傳推薦書籍
-router.on('Add_picture_book', async (data) => {
+router.on('add_picture_book', async (data) => {
   let pictureBookUrl = '';
-  if (data.book_img !== null) {
-    const base64Image = data.book_img.split(';base64,').pop();
+  if (data.image !== null) {
+    const base64Image = data.image.split(';base64,').pop();
     // ../WebSocket-JS/src/image/image
     // ../mcuim/WebSocket-JS/src/image/image
     const fileName = `image${makeid(4)}.png`;
@@ -201,7 +201,7 @@ router.on('Add_picture_book', async (data) => {
     name: data.book_name,
     image: pictureBookUrl,
     introduction: data.book_introduction,
-    recommend: '小孩',
+    recommend: '家長',
   };
   return db.addData('PictureBook', pictureBookSql);
 });
