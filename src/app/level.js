@@ -5,12 +5,11 @@ const router = createRouter();
 
 // 展示注音關卡進度
 router.on('show_zhuyin_level', async (data) => {
-  const sql = data;
-  const condition = {
-    id: sql.id,
+  const sql = {
+    child_id: data.child_id,
+    ispass: 1,
   };
-  delete sql.id;
-  return db.alterData('ZhuyinLevel', sql, condition);
+  return db.inquireData('ZhuyinLevel', sql);
 });
 
 // 完成某關注音關卡
@@ -25,5 +24,5 @@ router.on('alter_zhuyin_level', async (data) => {
   return db.alterData('ZhuyinLevel', sql, condition);
 });
 
-
+//
 module.exports = router;
