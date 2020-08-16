@@ -181,6 +181,32 @@ router.on('show_book', async (data) => {
   return db.inquireData('Book', sql);
 });
 
+// 家長上傳推薦書籍
+router.on('Add_picture_book', async (data) => {
+  let pictureBookUrl = '';
+  if (data.book_img !== null) {
+    const base64Image = data.book_img.split(';base64,').pop();
+    // ../WebSocket-JS/src/image/image
+    // ../mcuim/WebSocket-JS/src/image/image
+    const fileName = `image${makeid(4)}.png`;
+    pictureBookUrl = `http://growup.mcu.yokikiyo.space/images/${fileName}`;
+    fs.writeFile(`../mcuim/WebSocket-JS/src/image/${fileName}`, base64Image, { encoding: 'base64' }, (err) => {
+      console.log('File created');
+      console.log(`err=${err}`);
+    });
+  }
+
+  const pictureBookSql = {
+    child_id: data.child_id,
+    name: data.book_name,
+    image: pictureBookUrl,
+    introduction: data.book_introduction,
+    recommend: '小孩',
+  };
+  return db.addData('PictureBook', pictureBookSql);
+});
+
+// 查詢推薦書籍
 router.on('show_picture_book', async (data) => {
   const sql = {
     child_id: data.child_id,
