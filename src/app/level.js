@@ -18,7 +18,7 @@ router.on('alter_level', async (data) => {
     child_id: sql.child_id,
     level_name: sql.level_name,
   };
-  delete sql.id;
+  delete sql.child_id;
   delete sql.level_name;
   return db.alterData('ZhuyinLevel', sql, condition);
 });
