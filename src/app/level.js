@@ -15,7 +15,6 @@ router.on('show_level', async (data) => {
 router.on('alter_level', async (data) => {
   const sql = data;
   const condition = {
-    child_id: sql.child_id,
     level_name: sql.level_name,
   };
   delete sql.child_id;
@@ -23,5 +22,4 @@ router.on('alter_level', async (data) => {
   return db.alterData('ZhuyinLevel', sql, condition);
 });
 
-//
 module.exports = router;
