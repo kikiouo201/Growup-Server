@@ -41,6 +41,15 @@ router.on('show_child_position', async (data) => {
   return db.inquireData('GPS', sql);
 });
 
+router.on('alter_child_position', async (data) => {
+  const sql = data;
+  const condition = {
+    child_id: sql.child_id,
+  };
+  delete sql.child_id;
+  return db.alterData('GPS', sql, condition);
+});
+
 router.on('show_child_key', async (data) => {
   const sql = {
     child_key: data.child_key,
