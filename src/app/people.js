@@ -34,6 +34,13 @@ router.on('show_child', async (data) => {
   return db.inquireTwoData('Child_Parent', 'Child', 'Child_Parent.child_id = Child.id', sql);
 });
 
+router.on('show_child_position', async (data) => {
+  const sql = {
+    child_id: data.child_id,
+  };
+  return db.inquireData('GPS', sql);
+});
+
 router.on('show_child_key', async (data) => {
   const sql = {
     child_key: data.child_key,
