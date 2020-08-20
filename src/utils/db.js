@@ -64,6 +64,18 @@ function inquireAccount(table, account, password) {
   });
 }
 
+function inquireGoodBabyTotalValue(table, condition) {
+  return new Promise((resolve, reject) => {
+    database.query('SELECT SUM (add_value) FROM Experience WHERE ? ', condition, (err, rows) => {
+      if (err) {
+        reject(err);
+        log(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
 function inquireTwoData(table1, table2, on, condition) {
   return new Promise((resolve, reject) => {
     database.query(`SELECT * FROM ${table1} INNER JOIN ${table2} ON ${on}  WHERE ?`, condition, (err, rows) => {
@@ -122,6 +134,7 @@ module.exports = {
   inquireAccount,
   inquireQuiz,
   inquireTwoData,
+  inquireGoodBabyTotalValue,
   bookContentToQa,
   addData,
   deleteData,

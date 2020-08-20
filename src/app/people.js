@@ -57,6 +57,13 @@ router.on('show_child_key', async (data) => {
   return db.inquireData('Child', sql);
 });
 
+router.on('show_child_good_baby_value', async (data) => {
+  const sql = {
+     data.child_id,
+  };
+  return db.inquireGoodBabyTotalValue('Experience', sql);
+});
+
 function makeid(length) {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
