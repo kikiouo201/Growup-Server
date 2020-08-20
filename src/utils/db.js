@@ -66,7 +66,19 @@ function inquireAccount(table, account, password) {
 
 function inquireGoodBabyTotalValue(table, condition) {
   return new Promise((resolve, reject) => {
-    database.query('SELECT SUM (add_value) FROM Experience WHERE ? ', condition, (err, rows) => {
+    database.query('SELECT SUM(add_value) FROM Experience WHERE ? ', condition, (err, rows) => {
+      if (err) {
+        reject(err);
+        log(err);
+      }
+      resolve(rows);
+    });
+  });
+}
+
+function inquireGoodBabyDayValue(table, condition) {
+  return new Promise((resolve, reject) => {
+    database.query('SELECT SUM(add_value),date FROM Experience WHERE ? GROUP BY date', condition, (err, rows) => {
       if (err) {
         reject(err);
         log(err);
@@ -136,6 +148,7 @@ module.exports = {
   inquireTwoData,
   inquireGoodBabyTotalValue,
   bookContentToQa,
+  inquireGoodBabyDayValue,
   addData,
   deleteData,
   alterData,

@@ -57,11 +57,17 @@ router.on('show_child_key', async (data) => {
   return db.inquireData('Child', sql);
 });
 
-router.on('show_child_good_baby_value', async (data) => {
+router.on('show_child_good_baby_total_value', async (data) => {
   const sql = {
-     data.child_id,
+    child_id: data.child_id,
   };
   return db.inquireGoodBabyTotalValue('Experience', sql);
+});
+router.on('show_child_good_baby_day_value', async (data) => {
+  const sql = {
+    child_id: data.child_id,
+  };
+  return db.inquireGoodBabyDayValue('Experience', sql);
 });
 
 function makeid(length) {
