@@ -135,7 +135,7 @@ router.on('add_qa', async (data) => {
       console.log('File created');
       console.log(`err=${err}`);
     });
-  } else if (data.base64str.substring(0, 3) === 'http') {
+  } else if (data.base64str.substring(0, 4) === 'http') {
     questionUrl = data.base64str;
   }
   let pictureBookUrl = '';
@@ -149,7 +149,7 @@ router.on('add_qa', async (data) => {
       console.log('File created');
       console.log(`err=${err}`);
     });
-  } else if (data.book_img.substring(0, 3) === 'http') {
+  } else if (data.book_img.substring(0, 4) === 'http') {
     pictureBookUrl = data.base64str;
   }
 
