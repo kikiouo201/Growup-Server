@@ -123,7 +123,8 @@ router.on('show_book_content', async (data) => {
 // 增加問問題的歷史紀錄
 router.on('add_qa', async (data) => {
   let questionUrl = '';
-  if (data.base64str !== null) {
+  // let base64strSubstring = data.base64str.substring(3, 6);
+  if (data.base64str !== null && data.base64str.substring(0, 4) !== 'http') {
     const base64Image = data.base64str.split(';base64,').pop();
     // ../WebSocket-JS/src/image/image
     // ../mcuim/WebSocket-JS/src/image/image
@@ -134,6 +135,8 @@ router.on('add_qa', async (data) => {
       console.log('File created');
       console.log(`err=${err}`);
     });
+  } else if (data.base64str.substring(0, 3) === 'http') {
+    questionUrl = data.base64str;
   }
   let pictureBookUrl = '';
   if (data.book_img !== null) {
@@ -146,6 +149,8 @@ router.on('add_qa', async (data) => {
       console.log('File created');
       console.log(`err=${err}`);
     });
+  } else if (data.book_img.substring(0, 3) === 'http') {
+    pictureBookUrl = data.base64str;
   }
 
   const sql = {
@@ -165,6 +170,7 @@ router.on('add_qa', async (data) => {
   db.addData('PictureBook', pictureBookSql);
   return db.addData('QA', sql);
 });
+
 
 router.on('delete_book', async (data) => {
   const sql = {
