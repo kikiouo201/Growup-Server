@@ -124,7 +124,9 @@ router.on('show_book_content', async (data) => {
 router.on('add_qa', async (data) => {
   let questionUrl = '';
   // let base64strSubstring = data.base64str.substring(3, 6);
-  if (data.base64str !== null && data.base64str.substring(0, 4) !== 'http') {
+  if (data.base64str.substring(0, 4) === 'http') {
+    questionUrl = data.base64str;
+  } else if (data.base64str !== null) {
     const base64Image = data.base64str.split(';base64,').pop();
     // ../WebSocket-JS/src/image/image
     // ../mcuim/WebSocket-JS/src/image/image
@@ -135,11 +137,12 @@ router.on('add_qa', async (data) => {
       console.log('File created');
       console.log(`err=${err}`);
     });
-  } else if (data.base64str.substring(0, 4) === 'http') {
-    questionUrl = data.base64str;
   }
+
   let pictureBookUrl = '';
-  if (data.book_img !== null) {
+  if (data.book_img.substring(0, 4) === 'http') {
+    pictureBookUrl = data.base64str;
+  } else if (data.book_img !== null) {
     const base64Image = data.book_img.split(';base64,').pop();
     // ../WebSocket-JS/src/image/image
     // ../mcuim/WebSocket-JS/src/image/image
@@ -149,8 +152,6 @@ router.on('add_qa', async (data) => {
       console.log('File created');
       console.log(`err=${err}`);
     });
-  } else if (data.book_img.substring(0, 4) === 'http') {
-    pictureBookUrl = data.base64str;
   }
 
   const sql = {
