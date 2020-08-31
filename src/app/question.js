@@ -140,7 +140,7 @@ router.on('add_qa', async (data) => {
   }
 
   let pictureBookUrl = '';
-  if (data.book_img.match('http')) {
+  if (data.book_img.match('http') !== null) {
     pictureBookUrl = data.base64str;
   } else if (data.book_img !== null) {
     const base64Image = data.book_img.split(';base64,').pop();
