@@ -158,6 +158,7 @@ router.on('add_qa', async (data) => {
     child_id: data.child_id,
     question_text: data.question_text,
     answer: data.answer,
+    keyword: data.keyword,
     question_url: questionUrl,
     category: data.category,
   };
