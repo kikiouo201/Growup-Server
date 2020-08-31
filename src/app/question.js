@@ -142,7 +142,7 @@ router.on('add_qa', async (data) => {
   let pictureBookUrl = '';
   console.log(`data.book_img=${data.book_img}`);
   if (data.book_img !== null && data.book_img.match('http')) {
-    pictureBookUrl = data.base64str;
+    pictureBookUrl = data.book_img;
   } else if (data.book_img !== null) {
     const base64Image = data.book_img.split(';base64,').pop();
     // ../WebSocket-JS/src/image/image
