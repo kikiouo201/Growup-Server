@@ -1,6 +1,7 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 const util = require('util');
+const bodyParser = require('body-parser');
 const debug = require('../utils/debug');
 
 const log = debug('Exsocket =>');
@@ -10,7 +11,7 @@ const wsLog = debug('ws => ');
 function Exsocket(PORT = 2000) {
   const Server = express();
   Server.use(express.static('public'));
-
+  Server.use(bodyParser.json({ limit: '5mb' }));
 
   Server.use('/Images', express.static('../mcuim/WebSocket-JS/src/image'));
 
