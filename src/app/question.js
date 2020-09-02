@@ -139,21 +139,20 @@ router.on('add_qa', async (data) => {
     });
   }
 
-  let pictureBookUrl = '';
-  console.log(`data.book_img=${data.book_img}`);
-  if (data.book_img !== null && data.book_img.match('http')) {
-    pictureBookUrl = data.book_img;
-  } else if (data.book_img !== null) {
-    const base64Image = data.book_img.split(';base64,').pop();
-    // ../WebSocket-JS/src/image/image
-    // ../mcuim/WebSocket-JS/src/image/image
-    const fileName = `image${makeid(4)}.png`;
-    pictureBookUrl = `http://growup.mcu.yokikiyo.space/images/${fileName}`;
-    fs.writeFile(`../mcuim/WebSocket-JS/src/image/${fileName}`, base64Image, { encoding: 'base64' }, (err) => {
-      console.log('File created');
-      console.log(`err=${err}`);
-    });
-  }
+  // let pictureBookUrl = '';
+  // console.log(`data.book_img=${data.book_img}`);
+  // if (data.book_img !== null && data.book_img.match('http')) {
+  //   pictureBookUrl = data.book_img;
+  // } else if (data.book_img !== null) {
+  //   const base64Image = data.book_img.split(';base64,').pop();
+  //   // ../WebSocket-JS/src/image/image
+  //   // ../mcuim/WebSocket-JS/src/image/image
+  //   const fileName = `image${makeid(4)}.png`;
+  //   pictureBookUrl = `http://growup.mcu.yokikiyo.space/images/${fileName}`;// fs.writeFile(`../mcuim/WebSocket-JS/src/image/${fileName}`, base64Image, { encoding: 'base64' }, (err) => {
+  //   console.log('File created');
+  //   console.log(`err=${err}`);
+  // });
+  // }
 
   const sql = {
     child_id: data.child_id,
@@ -163,14 +162,14 @@ router.on('add_qa', async (data) => {
     question_url: questionUrl,
     category: data.category,
   };
-  const pictureBookSql = {
-    child_id: data.child_id,
-    name: data.book_name,
-    image: pictureBookUrl,
-    introduction: data.book_introduction,
-    recommend: '小孩',
-  };
-  db.addData('PictureBook', pictureBookSql);
+  // const pictureBookSql = {
+  //   child_id: data.child_id,
+  //   name: data.book_name,
+  //   image: pictureBookUrl,
+  //   introduction: data.book_introduction,
+  //   recommend: '小孩',
+  // };
+  // db.addData('PictureBook', pictureBookSql);
   return db.addData('QA', sql);
 });
 
