@@ -74,6 +74,7 @@ router.on('add_child_good_baby_value', async (data) => {
   const sql = {
     child_id: data.child_id,
     add_value: data.add_value,
+    type: data.type,
     date: data.date,
   };
 
