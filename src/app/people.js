@@ -70,6 +70,13 @@ router.on('show_child_good_baby_day_value', async (data) => {
   return db.inquireGoodBabyDayValue('Experience', sql);
 });
 
+router.on('show_child_good_baby_value', async (data) => {
+  const sql = {
+    child_id: data.child_id,
+  };
+  return db.inquireData('Experience', sql);
+});
+
 router.on('add_child_good_baby_value', async (data) => {
   const sql = {
     child_id: data.child_id,
@@ -77,8 +84,6 @@ router.on('add_child_good_baby_value', async (data) => {
     type: data.type,
     date: data.date,
   };
-
-
   return db.addData('Experience', sql);
 });
 
